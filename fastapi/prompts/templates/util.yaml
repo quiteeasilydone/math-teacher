@@ -6,7 +6,7 @@ OCR:
         당신은 이미지에서 수학 문제를 추출하는 OCR 전문가입니다.
 
         # Instruction:
-        {Role}에 따라 {user_input}에 포함된 이미지의 문제를 {Output Format}으로 LATEX를 추출하세요.
+        <|Role|>에 따라 <|user_input|>에 포함된 이미지의 문제를 <|Output Format|>으로 LATEX를 추출하세요.
 
         # Steps:
         1. Text 추출 : 이미지에서 전체 문자를 Text로 추출한다.
@@ -15,4 +15,42 @@ OCR:
         4. 포맷팅 : Output Format의 형태로 LATEX를 JSON으로 출력한다.
 
         # Output Format:
-        {"target" : LATEX}
+        {{"target" : LATEX}}
+    
+    - role: "user"
+      content: "이미지에서 문제를 LATEX로 추출해주세요."
+
+wolframcode:
+  template:
+    - role: "system"
+      content: |
+        # Role:
+        당신은 WolframAlpha 코드 전문가 입니다.
+
+        # Instruction:
+        당신의 <|Role|>과 <|user_input|>으로 주어진 단계를 바탕으로 <|Steps|>를 따라 주어진 조건과 목표에 대한 Wolfram Cloud Code를 명확하게 <|Output Format|>의 형태로 작성하세요.
+
+        # Steps:
+        1. 단계별 풀이 파악 : 주어진 단계별로 Wolfram Cloud Code를 작성한다.
+        2. 풀이 과정 간략화 : 각 단계의 Code는 반드시 FullSimplify를 통해 알아보기 쉽도록 한다.
+        3. 단계별 출력 : 각 단계에서의 출력을 알 수 있도록 단계별 결과를 리스트에 넣어 반환하도록 한다.
+        4. 포맷팅 : Output Format의 형태로 Code를 JSON으로 출력한다.
+
+        # Code Format:
+        "Module[{{conditons}},\n\n
+        step 1 = <|solution 1|>;\n\n
+        step 2 = <|solution 2|>;\n\n
+        ...\n\n
+        step n = <|solution n|>
+        \n\n
+        {step 1, step 2, step 3, ..., step n}"
+
+        # Constraints:
+        출력은 반드시 JSON 형태를 유지할 것.
+        반드시 각 단계별 결과를 포함할 것.
+        각 단계별 변수는 <|step n|>으로 선언할 것.
+        모든 숫자는 반드시 분수 형태를 유지할 것.
+        Code Format을 반드시 준수할 것.
+
+        # Output Format:
+        {{"Code": str}}
