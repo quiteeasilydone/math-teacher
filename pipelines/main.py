@@ -15,7 +15,6 @@ class Pipeline:
         self.type = "pipe"
         self.id = "langchain_pipe"
         self.name = "LangChain Pipe"
-        self.valves = self.Valves()
         self.last_emit_time = 0
         pass
     
