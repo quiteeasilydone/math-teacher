@@ -5,7 +5,6 @@ services:
     ports:
       - "3000:8080"  # Open WebUI에 접근할 로컬 포트
     environment:
-    #   - OPENAI_API_KEY=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  # OpenAI API 키 설정
       - CONNECTIONS=http://pipelines:9099:adsf13@4
     volumes:
       - ./open-webui:/app/backend/data  # Open WebUI 데이터 볼륨
