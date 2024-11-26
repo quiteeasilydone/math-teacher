@@ -13,3 +13,6 @@ class solution_steps(BaseModel):
     
 class wolfram_code(BaseModel):
     wolfram_code: str = Field(description="wolfram code from solution steps")
+
+class commentary(BaseModel):
+    commentary: str = Field(description="commentary from math problem")

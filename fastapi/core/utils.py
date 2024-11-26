@@ -2,11 +2,12 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_openai import ChatOpenAI
 from langchain_core.runnables import RunnablePassthrough
-from dotenv import load_dotenv
+from wolframclient.evaluation import WolframCloudSession, SecuredAuthenticationKey
+from wolframclient.language import wlexpr
+import yaml
+import os
 
 def build_chain(prompt_path, prompt_name, format_type):
-    load_dotenv()
-    
     with open(prompt_path, 'r') as f:
         prompt_data = yaml.safe_load(f)
         prompt_data = prompt_data[prompt_name]
@@ -42,3 +43,17 @@ def build_chain(prompt_path, prompt_name, format_type):
     )
     
     return chain
+
+def wolfram_code_result(code):
+    sak = SecuredAuthenticationKey(
+    os.environ.get['CUNSUMER_KEY'],
+    os.environ.get['CUNSUMER_SECERET'])
+    # 세션 시작
+    session = WolframCloudSession(credentials=sak)
+    session.start()
+    # 울프람 언어 코드 작성
+    # 코드를 세션에서 평가
+    result = session.evaluate(wlexpr(code))
+    
+    session.terminate()
+    return result

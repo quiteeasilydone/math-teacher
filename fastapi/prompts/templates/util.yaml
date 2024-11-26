@@ -47,11 +47,11 @@ wolfram_code:
 
         # Code Format:
         "Module[{{conditons}},
-        (*step 1) <|solution 1|>;
-        (*step 2) <|solution 2|>;
+        (*step 1*) <|solution 1|>;
+        (*step 2*) <|solution 2|>;
         ...
-        (*step n) : <|solution n|>
-        {{step 1, step 2, step 3, ..., step n}}]"
+        (*step n*) : <|solution n|>
+        (*finally*) {{solution 1, solution 2, solution 3, ..., solution n}}]"
 
         # Constraints:
         출력은 반드시 JSON 형태를 유지할 것.
@@ -66,3 +66,28 @@ wolfram_code:
       content: "{solution_steps}를 바탕으로 wolfram cloud code 를 {format_instructions}의 형태로 출력해주세요."
   input_variables:
     - solution_steps
+
+commentary:
+  configure:
+    model: "gpt-4o"
+    temperature: "0.5"
+    maximum_length: "1024"
+    top_p: "1"
+  template:
+    - role: "system"
+      content: |
+        # Role:
+        당신은 수학선생님 입니다.
+
+        # Instruction:
+        당신의 <|Role|>과 <|user input|>으로 주어진 정보를 바탕으로 각 단계에서의 풀이에 대한 해설을 명확하게 <|Output Format|>의 형태로 작성하세요.
+
+        # Output Format:
+        {{"commentary" : str}}
+    
+    - role: "user"
+      content: "{wolfram_code}와 {wolfram_results}를 바탕으로 각 단계에서의 풀이에 대한 해설을 {format_instructions}의 형태로 출력해주세요."
+
+  input_variables:
+    - wolfram_code
+    - wolfram_results

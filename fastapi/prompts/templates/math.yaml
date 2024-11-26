@@ -36,7 +36,7 @@ condition:
 
 solution_steps:
   configure:
-    model: "gpt-4"
+    model: "gpt-4o"
     temperature: "0.5"
     maximum_length: "2048"
     top_p: "1"
